@@ -22,14 +22,23 @@ Character::Character(char * name): health(20), weaps(NULL), pwrs(NULL), location
 Character::~Character()
 {
     if(weaps)
-        delete_weaps(weaps);
+        weaps->delete_weaps(weaps);
     if(pwrs)
-        delete_pwrs(pwrs);
+        pwrs->delete_pwrs(pwrs);
     if(location)
         delete location;
     left = NULL;
     right = NULL;
 
+}
+
+void Character::display_all(Character *root)
+{
+    if(!root)
+        return;
+    display_all(root->left);
+    root->display();
+    display_all(root->right);
 }
 
 void Character::display()
@@ -69,7 +78,7 @@ void Character::add_power(Power *power)
 
 void Character::fire_weapon()
 {
-    weaps->fire();
+    weaps->fire_weapon();
 }
 
 void Character::use_power()
@@ -90,7 +99,7 @@ void Character::set_active_weapon()
 
 void Character::copy_weapons(Weapon *src_head)
 {
-    weaps->copy(weaps, src_head);
+    weaps->copy_weapons(weaps, src_head);
 }
 
 void Character::copy_powers(Power *src_head)
@@ -98,7 +107,7 @@ void Character::copy_powers(Power *src_head)
    pwrs->copy_powers(pwrs, src_head); 
 }
 
-void Character::delete_weaps(Weapon *&weapon)
+void Character::delete_weaps()
 {
     weaps->delete_weaps(weaps);
 }
@@ -106,4 +115,34 @@ void Character::delete_weaps(Weapon *&weapon)
 void Character::delete_pwrs()
 {
     pwrs->delete_pwrs(pwrs);
+}
+
+void Character::insert(Character *&root, Character *to_insert)
+{
+    //insertion
+    if(!root)
+    {
+        //TODO marking this that it could be a problem
+        //Are we copying the value of the ptr? So should 
+        //point to same place...
+        root = to_insert;
+        return;
+    }
+    if(root->compare_names(to_insert))
+    {
+        insert(root->left, to_insert);
+    }
+    else 
+    {
+        insert(root->right, to_insert);
+    }
+}
+
+bool Character::compare_names(Character *to_compare)
+{
+    //we want to return true if to_compare.name is less than 
+    // this object's name
+    if(strcmp(to_compare->name, name) <= 0)
+        return true;
+    return false;
 }

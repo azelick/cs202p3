@@ -63,22 +63,14 @@ void Power::display()
     //TODO 
 }
 
-void Power:display_powers(Power *power)
-{
-    if(!current)
-        return;
-    power->display();
-    display_powers(power->next);
-}
-
 void Power::copy_powers(Power *&current, Power *src_head)
 {
     if(!src_head)
     {
-        head = NULL;
+        current = NULL;
         return;
     }
-    current->copy(src_head);
+    current = new Power(*src_head);
     copy_powers(current->next, src_head->next);
 }
 

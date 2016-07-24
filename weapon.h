@@ -19,7 +19,7 @@ class Weapon
         void copy_weapons(Weapon *&, Weapon *);
         void display_weapons(Weapon *current);
         void delete_weaps(Weapon *&weapon);
-        void add_at_end(Weapon *&to_add, Weapon *&current);
+        void add_at_end(Weapon *&current, Weapon *src_head);
 
         //operator overloading section
 

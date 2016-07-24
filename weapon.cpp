@@ -70,15 +70,15 @@ void Weapon::copy_weapons(Weapon *&current, Weapon *src_head)
 {
     if(!src_head)
     {
-        head = NULL;
+        current = NULL;
         return;
     }
-    current->copy(src_head);
-    copy_weapons(head->next, src_head->next);
+    current = new Weapon(*src_head);
+    copy_weapons(current->next, src_head->next);
 }
 
 
-void Weapon::display_weapons(Weapon *current);
+void Weapon::display_weapons(Weapon *current)
 {
     if(!current)
         return;
@@ -107,6 +107,6 @@ void Weapon::add_at_end(Weapon *&current, Weapon *src_head)
     }
     else
     {
-        add_at_end(current->next);
+        add_at_end(current->next, src_head);
     }
 }
