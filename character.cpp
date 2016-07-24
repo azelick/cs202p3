@@ -66,14 +66,25 @@ void Character::display_powers()
     pwrs->display_powers(pwrs);
 }
 
-void Character::add_weapon(Weapon *weapon)
+void Character::add_weapon(const Weapon &weapon)
 {
     weaps->add_at_end(weaps, weapon);    
 }
 
-void Character::add_power(Power *power)
+void Character::add_power(const Power &power)
 {
     pwrs->add_at_end(pwrs, power);
+}
+
+void Character::move(const Location &src_location)
+{
+    location->update_location(src_location);
+}
+
+void Character::set_to_location(const Location &src_location)
+{
+    //TODO
+    location->set_location(src_location);
 }
 
 void Character::fire_weapon()
@@ -145,4 +156,81 @@ bool Character::compare_names(Character *to_compare)
     if(strcmp(to_compare->name, name) <= 0)
         return true;
     return false;
+}
+
+Character Character::operator + (const Weapon &weapon) const
+{
+    Character temp(*this);
+    temp.add_weapon(weapon);
+    return temp;
+    
+}
+
+Character Character::operator + (const Power &power) const
+{
+    Character temp(*this);
+    temp.add_power(power);
+    return temp;
+}
+
+Character Character::operator + (const Location &location) const
+{
+    Character temp(*this);
+    temp.move(location);
+    return temp;
+}
+
+Character& Character::operator += (const Weapon &weapon)
+{
+    add_weapon(weapon);
+    return *this;
+}
+
+Character& Character::operator += (const Power &power)
+{
+    add_power(power);
+    return *this;
+}
+
+Character& Character::operator += (const Location &location)
+{
+    move(location);
+    return *this;
+
+}
+
+Character& Character::operator = (const Character &character)
+{
+    health = character.health;
+    if(name)
+        delete [] name;
+    name = new char[strlen(character.name) + 1];
+    strcpy(name, character.name);
+    weaps->delete_weaps(weaps);
+    weaps->copy_weapons(weaps, character.weaps);
+    pwrs->delete_pwrs(pwrs);
+    pwrs->copy_powers(pwrs, character.pwrs);
+    delete location;
+    location = new Location(*(character.location));
+    return *this;    
+}
+
+bool Character::operator == (const Character &character) const
+{
+    if(0 == strcmp(name, character.name))
+        return true;
+    return false;
+}
+
+bool Character::operator != (const Character &character) const
+{
+    if(0 != strcmp(name, character.name))
+        return true;
+    return false;
+}
+
+ostream& Character::operator << (ostream &ostream, const Character &)
+{
+    display();
+    return ostream;
 }

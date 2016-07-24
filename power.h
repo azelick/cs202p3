@@ -24,7 +24,7 @@ class Power
         void display_powers(Power *);
         void copy_powers(Power *&, Power *);
         void delete_pwrs(Power *&);
-        void add_at_end(Power *&, Power *);
+        void add_at_end(Power *&, const Power &);
 
         //operator overloading section
 

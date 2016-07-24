@@ -20,7 +20,22 @@ class Character
         ~Character();
 
         //block of overloaded operators
-        
+       //=, +=, +, ==, !=, <, <=, >, >=, <<, >> 
+       Character operator + (const Weapon &) const;
+       Character operator + (const Power &) const;
+       Character operator + (const Location &) const;
+
+       Character& operator += (const Weapon &);
+       Character& operator += (const Power &);
+       Character& operator += (const Location &);
+
+       Character& operator = (const Character &);
+       
+       bool operator == (const Character &) const;
+       bool operator != (const Character &) const;
+
+       ostream& operator << (const Character &);
+
         
         //display functions
         //recursive
@@ -30,8 +45,10 @@ class Character
         void display_powers();
 
         //add at end of each LLL
-        void add_weapon(Weapon * weapon);
-        void add_power(Power * power);
+        void add_weapon(const Weapon &weapon);
+        void add_power(const Power &power);
+        void move(const Location &);
+        void set_to_location(const Location &);
 
         //The compare used for BST
         bool compare_names(Character *);

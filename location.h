@@ -21,11 +21,10 @@ class Location
         //get_y();
 
         void display();
+        void set_location(const Location &);
+        void update_location(const Location &);
 
     protected:
         int x;
         int y;
-
-
-
 };

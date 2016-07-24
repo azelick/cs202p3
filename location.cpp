@@ -17,3 +17,16 @@ void Location::display()
         << ", y: " << y << endl;
 }
 
+void Location::set_location(const Location &src_location)
+{
+    x = src_location.x;
+    y = src_location.y;
+}
+
+
+void Location::update_location(const Location &src_location)
+{
+    x += src_location.x;
+    y += src_location.y;
+} 
+

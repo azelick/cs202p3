@@ -91,18 +91,18 @@ void Power::delete_pwrs(Power *&power)
     return;
 }
 
-void Power::add_at_end(Power *&current, Power *src_head)
+void Power::add_at_end(Power *&current, const Power &src_power)
 {
     if(!current)
         return;
     if(!current->next)
     {
-        current->next = new Power(*src_head);
+        current->next = new Power(src_power);
         current->next->next = NULL;
         return;
     }
     else
     {
-        add_at_end(current->next, src_head);
+        add_at_end(current->next, src_power);
     }
 }

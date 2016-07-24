@@ -95,18 +95,18 @@ void Weapon::delete_weaps(Weapon *&weapon)
     return;
 }
 
-void Weapon::add_at_end(Weapon *&current, Weapon *src_head)
+void Weapon::add_at_end(Weapon *&current, const Weapon &src_power)
 {
     if(!current)
         return;
     if(!current->next)
     {
-        current->next = new Weapon(*src_head);
+        current->next = new Weapon(src_power);
         current->next->next = NULL;
         return;
     }
     else
     {
-        add_at_end(current->next, src_head);
+        add_at_end(current->next, src_power);
     }
 }

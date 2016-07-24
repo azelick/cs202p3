@@ -10,10 +10,8 @@ using namespace std;
 
 int main() {
 
-    Character char_list;
-    Character * character_ptr = NULL;
-    *character_ptr = char_list;
-    char_list.display_all(character_ptr);
+    Character *char_list = new Character();
+    char_list->display_all(char_list);
     
 
 
