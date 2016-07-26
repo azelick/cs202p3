@@ -25,6 +25,7 @@ class Character
        Character operator + (const Power &) const;
        Character operator + (const Location &) const;
 
+       Character& operator += (const Character &);
        Character& operator += (const Weapon &);
        Character& operator += (const Power &);
        Character& operator += (const Location &);
@@ -39,10 +40,14 @@ class Character
         
         //display functions
         //recursive
-        void display_all(Character *root);
-        void display();
-        void display_weapons();
-        void display_powers();
+        void display_all() const;
+        void display(const Character *root) const;
+        void display() const;
+        void display_weapons() const;
+        void display_powers() const;
+
+        //add character to the BST
+        void add_character(const Character &character);
 
         //add at end of each LLL
         void add_weapon(const Weapon &weapon);
@@ -51,7 +56,7 @@ class Character
         void set_to_location(const Location &);
 
         //The compare used for BST
-        bool compare_names(Character *);
+        bool compare_names(const Character &) const;
 
         //use our active weapons and powers
         void fire_weapon();
@@ -60,6 +65,9 @@ class Character
         //query's the user to select from available
         void set_active_power();
         void set_active_weapon();
+
+        //remove list
+        void delete_all(Character *&character);
 
     protected:
         int health;
@@ -81,6 +89,6 @@ class Character
 
         //insert a new Character into the list
         //of characters
-        void insert(Character *&root, Character *to_insert);
+        void insert(Character *&root, const Character &to_insert);
         
 };

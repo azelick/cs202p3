@@ -58,7 +58,7 @@ void Power::use_power()
         << "Imma chargin this player's attack " << attack_buff << endl;
 }
 
-void Power::display()
+void Power::display() const
 {
     //TODO 
 }
@@ -74,7 +74,7 @@ void Power::copy_powers(Power *&current, Power *src_head)
     copy_powers(current->next, src_head->next);
 }
 
-void Power::display_powers(Power *current)
+void Power::display_powers(Power *current) const
 {
     if(!current)
         return;

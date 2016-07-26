@@ -60,7 +60,7 @@ void Weapon::fire_weapon()
         << endl;
 }
 
-void Weapon::display()
+void Weapon::display() const 
 {
     //TODO
 
@@ -78,7 +78,7 @@ void Weapon::copy_weapons(Weapon *&current, Weapon *src_head)
 }
 
 
-void Weapon::display_weapons(Weapon *current)
+void Weapon::display_weapons(Weapon *current) const
 {
     if(!current)
         return;

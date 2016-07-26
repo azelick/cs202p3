@@ -20,8 +20,8 @@ class Power
         void create_power();
         void use_power();
 
-        void display();
-        void display_powers(Power *);
+        void display() const;
+        void display_powers(Power *) const;
         void copy_powers(Power *&, Power *);
         void delete_pwrs(Power *&);
         void add_at_end(Power *&, const Power &);

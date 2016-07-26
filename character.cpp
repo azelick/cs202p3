@@ -32,16 +32,22 @@ Character::~Character()
 
 }
 
-void Character::display_all(Character *root)
+void Character::display_all() const 
+{
+    display(left);
+    display(right);
+}
+
+void Character::display(const Character *root) const 
 {
     if(!root)
         return;
-    display_all(root->left);
+    display(root->left);
     root->display();
-    display_all(root->right);
+    display(root->right);
 }
 
-void Character::display()
+void Character::display() const
 {
     cout << "The character is: " << name << endl;
     cout << "They is at: " << health << " health" << endl;
@@ -56,14 +62,26 @@ void Character::display()
 
 }
 
-void Character::display_weapons()
+void Character::display_weapons() const
 {
     weaps->display_weapons(weaps);
 }
 
-void Character::display_powers()
+void Character::display_powers() const 
 {
     pwrs->display_powers(pwrs);
+}
+
+void Character::add_character(const Character &to_insert)
+{
+    if(compare_names(to_insert))
+    {
+        insert(left, to_insert);
+    }
+    else 
+    {
+        insert(right, to_insert);
+    }
 }
 
 void Character::add_weapon(const Weapon &weapon)
@@ -97,6 +115,16 @@ void Character::use_power()
     pwrs->use_power();
 }
 
+void Character::delete_all(Character *&character)
+{
+    if(!character)
+        return;
+    delete_all(character->left);
+    delete_all(character->right);
+
+    delete character;
+}
+
 void Character::set_active_power()
 {
     //TODO this isn't required and is more complicated to code
@@ -128,7 +156,7 @@ void Character::delete_pwrs()
     pwrs->delete_pwrs(pwrs);
 }
 
-void Character::insert(Character *&root, Character *to_insert)
+void Character::insert(Character *&root, const Character &to_insert)
 {
     //insertion
     if(!root)
@@ -136,7 +164,7 @@ void Character::insert(Character *&root, Character *to_insert)
         //TODO marking this that it could be a problem
         //Are we copying the value of the ptr? So should 
         //point to same place...
-        root = to_insert;
+        *root = to_insert;
         return;
     }
     if(root->compare_names(to_insert))
@@ -149,11 +177,11 @@ void Character::insert(Character *&root, Character *to_insert)
     }
 }
 
-bool Character::compare_names(Character *to_compare)
+bool Character::compare_names(const Character &to_compare) const
 {
     //we want to return true if to_compare.name is less than 
     // this object's name
-    if(strcmp(to_compare->name, name) <= 0)
+    if(strcmp(to_compare.name, name) <= 0)
         return true;
     return false;
 }
@@ -178,6 +206,13 @@ Character Character::operator + (const Location &location) const
     Character temp(*this);
     temp.move(location);
     return temp;
+}
+
+       
+Character& Character::operator += (const Character &character)
+{
+    add_character(character);
+    return *this;
 }
 
 Character& Character::operator += (const Weapon &weapon)
@@ -229,8 +264,9 @@ bool Character::operator != (const Character &character) const
     return false;
 }
 
-ostream& Character::operator << (ostream &ostream, const Character &)
+//not a member function
+ostream& operator << (ostream &ostream, const Character &character)
 {
-    display();
+    character.display_all();
     return ostream;
 }
