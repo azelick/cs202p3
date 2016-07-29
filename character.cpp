@@ -1,16 +1,12 @@
 #include "character.h"
 
-Character::Character(): health(20), name(NULL), weaps(NULL), pwrs(NULL), location(NULL),  left(NULL), right(NULL)
+Character::Character(): health(20), name(NULL), weaps(NULL), pwrs(NULL), location(NULL), active_weapon(NULL), left(NULL), right(NULL)
 {
     location = new Location();
 }
 
 Character::Character(const Character & character)
 {
-    //TODO This probably isn't finished yet
-    //need to copy health, name, weaps, pwrs, and location.
-    //Should not copy left or right pointers
-    //name
     if(!character.name)
         name = NULL; 
     else
@@ -31,7 +27,7 @@ Character::Character(const Character & character)
 
 }
 
-Character::Character(char * src_name): health(20), weaps(NULL), pwrs(NULL), location(NULL), left(NULL), right(NULL)
+Character::Character(char * src_name): health(20), weaps(NULL), pwrs(NULL), location(NULL), active_weapon(NULL), left(NULL), right(NULL)
 {
 
     if(!src_name)
@@ -135,13 +131,17 @@ void Character::move(const Location *src_location)
 
 void Character::set_to_location(const Location *src_location)
 {
-    //TODO
     location->set_location(src_location);
 }
 
 void Character::fire_weapon()
 {
-    weaps->fire_weapon();
+    if(active_weapon)
+        active_weapon->fire_weapon();
+    else if(weaps)
+        weaps->fire_weapon();
+    else
+        cout << "No weapon" << endl;
 }
 
 void Character::use_power()
@@ -159,15 +159,21 @@ void Character::delete_all(Character *&character)
     delete character;
 }
 
-void Character::set_active_power()
-{
-    //TODO this isn't required and is more complicated to code
-
-}
-
 void Character::set_active_weapon()
 {
-    //TODO this isn't required and is more complicated to code
+    //Whatever active_weapon is pointing at is the active weapon
+   weaps->display_weapons(weaps); 
+    char * input;
+    input = new char[100];
+    cout << "What is the name of the weapon you wish to use as active? ";
+    cin >> input;
+    cin.ignore(100, '\n');
+    
+    //if string matches weapon in list
+    //set ptr to it
+    //if it doesn't match, cout error
+
+//TODO
 }
 
 void Character::copy_weapons(const Weapon *src_head)
@@ -200,9 +206,6 @@ void Character::insert(Character *&root, const Character *to_insert)
     //insertion
     if(!root)
     {
-        //TODO marking this that it could be a problem
-        //Are we copying the value of the ptr? So should 
-        //point to same place...
         root = new Character(*to_insert);
         return;
     }
@@ -230,7 +233,6 @@ Character Character::operator + (const Weapon &weapon) const
     Character temp(*this);
     temp.add_weapon(&weapon);
     return temp;
-    
 }
 
 Character Character::operator + (const Power &power) const
@@ -271,7 +273,6 @@ Character& Character::operator += (const Location &location)
 {
     move(&location);
     return *this;
-
 }
 
 Character& Character::operator = (const Character &character)

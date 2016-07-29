@@ -14,28 +14,38 @@ class Character
         Character();
         //copy constructor
         Character(const Character &);
-        //TODO arg constructor
+        //arg constructor
         Character(char *);
         //destructor
         ~Character();
 
         //block of overloaded operators
+        //These are the operators required for the class
+        //the relational operators live within the weapon
+        //and power classes
        //=, +=, +, ==, !=, <, <=, >, >=, <<, >> 
        Character operator + (const Weapon &) const;
        Character operator + (const Power &) const;
        Character operator + (const Location &) const;
 
+       //add a character to the list
        Character& operator += (const Character &);
+       //add a weapon to the list of weapons for this character
        Character& operator += (const Weapon &);
+       //add a power to the list of power for this character
        Character& operator += (const Power &);
+       //add to the location of the character
        Character& operator += (const Location &);
 
+       //assignment to the character
        Character& operator = (const Character &);
        
+       //check to see if the name of the character is 
+       //the same or not
        bool operator == (const Character &) const;
        bool operator != (const Character &) const;
 
-       //Friend to allow this to output our data
+       //Friend to allow this non-member function to output our data
        friend ostream& operator << (ostream &, const Character &);
         
         //display functions
@@ -59,6 +69,7 @@ class Character
         bool compare_names(const Character *) const;
 
         //use our active weapons and powers
+        bool can_fire();
         void fire_weapon();
         void use_power();
 
@@ -77,6 +88,7 @@ class Character
         Power * pwrs;
         //This is just one location.
         Location * location;
+        Weapon *active_weapon;
 
         Character * left;
         Character * right;
