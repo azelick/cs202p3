@@ -1,7 +1,5 @@
 // main program
 //
-//
-//
 
 
 #include <iostream>
@@ -13,6 +11,11 @@ bool another_weapon();
 bool another_power();
 void compare_weapons();
 void compare_powers();
+void move_character();
+void create_characters_from_user_input();
+void create_and_use_a_power();
+
+
 
 ostream& operator << (ostream &ostream, const Character &character)
 {
@@ -20,8 +23,6 @@ ostream& operator << (ostream &ostream, const Character &character)
     return ostream;
 };
 
-
-        
 ostream & operator << (ostream &cout, const Weapon &weap)
 {
    weap.display();
@@ -45,11 +46,19 @@ istream & operator >> (istream &cin, Power &pow)
     pow.create_power();
     return cin;
 }
+int main() { 
+    create_characters_from_user_input();
+    
+       //TODO Here we should use some of the powers
+    compare_weapons(); 
+    compare_powers();
+    move_character();
+    create_and_use_a_power();
+}
 
-
-int main() {
-
-    char *input;
+void create_characters_from_user_input()
+{
+     char *input;
     input = new char[100];
     cout << "Please enter a name for the head character: ";
     cin >> input;
@@ -102,18 +111,75 @@ int main() {
         new_character = NULL;
     } while(again());
 
-    //TODO Here we should use some of the powers
-   compare_weapons(); 
-
-    compare_powers();
-
+    //cleanup
     delete [] input;   
 
     char_list->delete_all(char_list);
 }
 
+void create_and_use_a_power()
+{
+    Power *pow = new Power();
+    pow->create_power();
+
+    cout << endl << "And here we use the power: " << endl;
+    pow->use_power();
+}
+
+void select_weapon()
+{
+    Character *new_character;
+    char *input_name;
+    input_name = new char[100];
+    cout << "Please enter a name for the character: ";
+    cin >> input_name;
+    cin.ignore(50, '\n');
+    new_character = new Character(input_name);
+
+    cout << "Please enter at lease two weapons" << endl;
+     while(another_weapon())
+    { 
+        Weapon *weapon = new Weapon();
+        cin >> *weapon;
+       // weapon->create_weapon();
+        *new_character += *weapon;
+        delete weapon;
+        weapon = NULL;
+    }
+     character->set_active_weapon();
+     cout << *new_character;
+
+
+
+
+
+}
+
+void move_character_and_fire_weapon()
+{
+    //make a new character
+        Character *new_character;
+        char *input_name;
+        input_name = new char[100];
+        cout << "Please enter a name for the character: ";
+        cin >> input_name;
+        cin.ignore(50, '\n');
+        new_character = new Character(input_name);
+        cout << *new_character;
+
+        cout << endl << "And now the character will move " << endl;
+        Location loc_to_move(4, 6);
+        //move the character to the new location
+        *new_character += loc_to_move;
+        cout << *new_character;
+
+        if(new_character->can_fire())
+            new_character->fire_weapon();
+}
+
 void compare_weapons()
 {
+    cout << "We are going to compare two Weapons with the relational operators... " << endl;
     //create two powers and use relational operator to compare them
     Weapon *weap1 = new Weapon();
     cin >> *weap1;
@@ -132,6 +198,7 @@ void compare_weapons()
 void compare_powers()
 {
     //create two powers and use relational operator to compare them
+    cout << "We are going to compare two Powers with the boolean operators... " << endl;
     Power *pow1= new Power();
     cin >> *pow1;
     Power *pow2= new Power();
