@@ -60,10 +60,12 @@ void Power::use_power()
 
 void Power::display() const
 {
-    //TODO 
+    cout << "The name of this power is: " << name << endl;
+    cout << "It's attack buff is: " << attack_buff << endl;
+    cout << "It's health_buff is: " << health_buff << endl;
 }
 
-void Power::copy_powers(Power *&current, Power *src_head)
+void Power::copy_powers(Power *&current, const Power *src_head)
 {
     if(!src_head)
     {
@@ -74,7 +76,7 @@ void Power::copy_powers(Power *&current, Power *src_head)
     copy_powers(current->next, src_head->next);
 }
 
-void Power::display_powers(Power *current) const
+void Power::display_powers(const Power *current) const
 {
     if(!current)
         return;
@@ -91,18 +93,57 @@ void Power::delete_pwrs(Power *&power)
     return;
 }
 
-void Power::add_at_end(Power *&current, const Power &src_power)
+void Power::add_at_end(Power *&current, const Power *src_power)
 {
     if(!current)
-        return;
-    if(!current->next)
     {
-        current->next = new Power(src_power);
-        current->next->next = NULL;
+        current = new Power(*src_power);
+        current->next = NULL;
         return;
     }
-    else
-    {
-        add_at_end(current->next, src_power);
-    }
+    add_at_end(current->next, src_power);
 }
+
+bool Power::operator> (const Power &pow) const
+{
+    if(attack_buff > pow.attack_buff)
+        return true;
+    return false;
+}
+
+bool Power::operator>= (const Power &pow) const
+{
+    if(attack_buff >= pow.attack_buff)
+        return true;
+    return false;
+}
+
+bool Power::operator< (const Power &pow) const
+{
+    if(attack_buff < pow.attack_buff)
+        return true;
+    return false;
+}
+
+bool Power::operator<= (const Power &pow) const
+{
+    if(attack_buff <= pow.attack_buff)
+        return true;
+    return false;
+}
+
+bool Power::operator==(const Power &pow) const
+{
+    if(attack_buff == pow.attack_buff)
+        return true;
+    return false;
+}
+
+bool Power::operator!=(const Power &pow) const
+{
+    if(attack_buff != pow.attack_buff)
+        return true;
+    return false;
+}
+
+

@@ -1,6 +1,6 @@
 #include "weapon.h"
 
-Weapon::Weapon(): name(NULL), attack_value(1), range(1), next(NULL)
+Weapon::Weapon(): name(NULL), attack_value(0), range(0), next(NULL)
 {
 
 }
@@ -32,7 +32,8 @@ Weapon::~Weapon()
 
 void Weapon::create_weapon()
 {
-    char input[100];
+    char * input;
+    input = new char[100];
     cout << "What is the name of this weapon? ";
     cin >> input;
     cin.ignore(100, '\n');
@@ -62,11 +63,12 @@ void Weapon::fire_weapon()
 
 void Weapon::display() const 
 {
-    //TODO
-
+    cout << "The name of this weapon is: " << name << endl;
+    cout << "Its attack value is: " << attack_value << endl;
+    cout << "Its range is: " << range << endl;
 }
 
-void Weapon::copy_weapons(Weapon *&current, Weapon *src_head)
+void Weapon::copy_weapons(Weapon *&current, const Weapon *src_head)
 {
     if(!src_head)
     {
@@ -95,18 +97,58 @@ void Weapon::delete_weaps(Weapon *&weapon)
     return;
 }
 
-void Weapon::add_at_end(Weapon *&current, const Weapon &src_power)
+void Weapon::add_at_end(Weapon *&current, const Weapon *src_power)
 {
     if(!current)
-        return;
-    if(!current->next)
     {
-        current->next = new Weapon(src_power);
-        current->next->next = NULL;
+        current = new Weapon(*src_power);
+        current->next = NULL;
         return;
     }
-    else
-    {
-        add_at_end(current->next, src_power);
-    }
+    add_at_end(current->next, src_power);
 }
+
+bool Weapon::operator> (const Weapon &weap) const
+{
+    if (attack_value > weap.attack_value)
+        return true;
+    return false;
+}
+
+bool Weapon::operator>= (const Weapon &weap) const
+{
+    if (attack_value >= weap.attack_value)
+        return true;
+    return false;
+}
+
+bool Weapon::operator< (const Weapon &weap) const
+{
+    if (attack_value < weap.attack_value)
+        return true;
+    return false;
+}
+
+bool Weapon::operator<= (const Weapon &weap) const
+{
+    if (attack_value <= weap.attack_value)
+        return true;
+    return false;
+}
+
+bool Weapon::operator==(const Weapon &weap) const
+{
+    if(attack_value == weap.attack_value)
+        return true;
+    return false;
+
+}
+
+bool Weapon::operator!=(const Weapon &weap) const
+{
+    if(attack_value != weap.attack_value)
+        return true;
+    return false;
+}
+
+

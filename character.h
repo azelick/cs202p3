@@ -35,8 +35,8 @@ class Character
        bool operator == (const Character &) const;
        bool operator != (const Character &) const;
 
-       ostream& operator << (const Character &);
-
+       //Friend to allow this to output our data
+       friend ostream& operator << (ostream &, const Character &);
         
         //display functions
         //recursive
@@ -47,16 +47,16 @@ class Character
         void display_powers() const;
 
         //add character to the BST
-        void add_character(const Character &character);
+        void add_character(const Character *character);
 
         //add at end of each LLL
-        void add_weapon(const Weapon &weapon);
-        void add_power(const Power &power);
-        void move(const Location &);
-        void set_to_location(const Location &);
+        void add_weapon(const Weapon *weapon);
+        void add_power(const Power *power);
+        void move(const Location *);
+        void set_to_location(const Location *);
 
         //The compare used for BST
-        bool compare_names(const Character &) const;
+        bool compare_names(const Character *) const;
 
         //use our active weapons and powers
         void fire_weapon();
@@ -81,14 +81,15 @@ class Character
         Character * left;
         Character * right;
 
-        void copy_weapons(Weapon *head);
-        void copy_powers(Power *head);
+        void copy_weapons(const Weapon *head);
+        void copy_powers(const Power *head);
+        void copy_location(const Location *location);
 
         void delete_weaps();
         void delete_pwrs();
 
         //insert a new Character into the list
         //of characters
-        void insert(Character *&root, const Character &to_insert);
+        void insert(Character *&root, const Character *to_insert);
         
 };

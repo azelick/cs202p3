@@ -21,12 +21,21 @@ class Power
         void use_power();
 
         void display() const;
-        void display_powers(Power *) const;
-        void copy_powers(Power *&, Power *);
+        void display_powers(const Power *) const;
+        void copy_powers(Power *&, const Power *);
         void delete_pwrs(Power *&);
-        void add_at_end(Power *&, const Power &);
+        void add_at_end(Power *&, const Power *);
 
-        //operator overloading section
+        //overloaded operators
+        friend ostream & operator << (ostream &, const Power &);
+        friend istream & operator >> (istream &, Power &);
+
+        bool operator> (const Power &) const;
+        bool operator>= (const Power &) const;
+        bool operator< (const Power &) const;
+        bool operator<= (const Power &) const;
+        bool operator==(const Power &) const;
+        bool operator!=(const Power &) const;
 
     protected:
         char * name;

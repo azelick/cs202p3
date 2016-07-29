@@ -13,20 +13,26 @@ Location::Location(int src_x, int src_y)
 
 void Location::display()
 {
-    cout << "The location is x: " << x
+    cout << "x: " << x
         << ", y: " << y << endl;
 }
 
-void Location::set_location(const Location &src_location)
+void Location::set_location(const Location *src_location)
 {
-    x = src_location.x;
-    y = src_location.y;
+    x = src_location->x;
+    y = src_location->y;
 }
 
 
-void Location::update_location(const Location &src_location)
+void Location::update_location(const Location *src_location)
 {
-    x += src_location.x;
-    y += src_location.y;
+    x += src_location->x;
+    y += src_location->y;
 } 
+
+void Location::copy(const Location *loc)
+{
+    x = loc->x;
+    y = loc->y;
+}
 
